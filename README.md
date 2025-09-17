@@ -72,7 +72,7 @@ grafico_dispersao <- ggplot(mapping = aes(x = coleta, y = brix)) +
   ) +
   labs(
     title = "Desempenho dos Clones ao Longo das Coletas",
-    subtitle = "Pontos cinzas = clones individuais. Linha preta = média geral. Pontos coloridos = pais.",
+    subtitle = "Pontos cinzas = clones individuais. Linha preta = média geral.",
     x = "Época de Coleta",
     y = "°Brix",
     color = "Pais"
