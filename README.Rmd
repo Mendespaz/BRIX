@@ -14,8 +14,8 @@ library(readxl)
 ```
 
 
-# Carga e Preparação dos Dados
-```{r setup, include=FALSE}
+# Carega e Preparação dos Dados
+```{r}
 dados_longos <- read_excel("brix_completo_todos.xlsx") %>%
   pivot_longer(
     cols = c(primeira, segunda, terceira, quarta),
@@ -33,7 +33,7 @@ dados_longos <- read_excel("brix_completo_todos.xlsx") %>%
   select(clone, bloco, coleta, brix)
 ```
 
-# Separação dos Dados para o Gráfico
+# Informando os pais
 
 ```{r}
 dados_pais <- dados_longos %>%

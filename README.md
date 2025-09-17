@@ -25,9 +25,32 @@ library(agricolae)
 library(readxl)
 ```
 
-# Carga e Preparação dos Dados
+# Carega e Preparação dos Dados
 
-# Separação dos Dados para o Gráfico
+``` r
+dados_longos <- read_excel("brix_completo_todos.xlsx") %>%
+  pivot_longer(
+    cols = c(primeira, segunda, terceira, quarta),
+    names_to = "coleta_nome",
+    values_to = "brix"
+  ) %>%
+  mutate(
+    brix = gsub(",", ".", brix),
+    brix = as.numeric(brix),
+    coleta = factor(coleta_nome, levels = c("primeira", "segunda", "terceira", "quarta")),
+    bloco = as.factor(bloco),
+    clone = as.factor(clone)
+  ) %>%
+  filter(!is.na(brix)) %>%
+  select(clone, bloco, coleta, brix)
+```
+
+    ## Warning: There was 1 warning in `mutate()`.
+    ## ℹ In argument: `brix = as.numeric(brix)`.
+    ## Caused by warning:
+    ## ! NAs introduzidos por coerção
+
+# Informando os pais
 
 ``` r
 dados_pais <- dados_longos %>%
@@ -93,7 +116,7 @@ print(grafico_dispersao)
     ## Warning: Removed 9 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 # Salvar grafico
 
