@@ -67,8 +67,8 @@ grafico_dispersao <- ggplot(mapping = aes(x = coleta, y = brix)) +
     values = c("7825" = "blue", "5952" = "gold")
   ) +
   scale_y_continuous(
-    limits = c(5, 26),
-    breaks = c(5, 10, 15, 20, 26)
+    limits = c(10, 26),
+    breaks = c(10, 15, 20, 26)
   ) +
   labs(
     title = "Desempenho dos Clones ao Longo das Coletas",
