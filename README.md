@@ -15,7 +15,7 @@ dados_longos <- read_excel("brix_completo_todos.xlsx") %>%
     clone = as.factor(clone)
   ) %>%
   filter(!is.na(brix)) %>%
-  select(clone, bloco, coleta, brix) # Seleciona e reordena colunas
+  select(clone, bloco, coleta, brix)
 
 # Separação dos Dados para o Gráfico
 dados_pais <- dados_longos %>%
