@@ -1,10 +1,12 @@
+# Brix
+
 ---
 title: "brix"
 author: "Gabriel Mendes"
 date: "2025-09-17"
 output: github_document
 ---
-# Brix
+
 # Carregar pacote
 
 ```{r}
