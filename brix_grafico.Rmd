@@ -1,5 +1,4 @@
 # Brix
-
 ---
 title: "brix"
 author: "Gabriel Mendes"

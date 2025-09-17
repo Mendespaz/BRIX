@@ -1,41 +1,37 @@
----
-title: "brix"
-author: "Gabriel Mendes"
-date: "2025-09-17"
-output: github_document
----
+brix
+================
+Gabriel Mendes
+2025-09-17
+
+# Brix
 
 # Carregar pacote
 
-```{r}
+``` r
 library(tidyverse)
+```
+
+    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+    ## ✔ purrr     1.1.0     
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ✖ dplyr::filter() masks stats::filter()
+    ## ✖ dplyr::lag()    masks stats::lag()
+    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+``` r
 library(agricolae)
 library(readxl)
 ```
 
-
 # Carga e Preparação dos Dados
-```{r setup, include=FALSE}
-dados_longos <- read_excel("brix_completo_todos.xlsx") %>%
-  pivot_longer(
-    cols = c(primeira, segunda, terceira, quarta),
-    names_to = "coleta_nome",
-    values_to = "brix"
-  ) %>%
-  mutate(
-    brix = gsub(",", ".", brix),
-    brix = as.numeric(brix),
-    coleta = factor(coleta_nome, levels = c("primeira", "segunda", "terceira", "quarta")),
-    bloco = as.factor(bloco),
-    clone = as.factor(clone)
-  ) %>%
-  filter(!is.na(brix)) %>%
-  select(clone, bloco, coleta, brix)
-```
 
 # Separação dos Dados para o Gráfico
 
-```{r}
+``` r
 dados_pais <- dados_longos %>%
   filter(clone %in% c("7825", "5952"))
 
@@ -45,7 +41,7 @@ dados_outros_clones <- dados_longos %>%
 
 # Geração do Gráfico
 
-```{r}
+``` r
 grafico_dispersao <- ggplot(mapping = aes(x = coleta, y = brix)) +
   geom_jitter(
     data = dados_outros_clones,
@@ -89,13 +85,21 @@ grafico_dispersao <- ggplot(mapping = aes(x = coleta, y = brix)) +
 
 # Exibir grafico
 
-```{r}
+``` r
 print(grafico_dispersao)
 ```
 
+    ## Warning: Removed 9 rows containing non-finite outside the scale range
+    ## (`stat_summary()`).
+
+    ## Warning: Removed 9 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](brix_grafico_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
 # Salvar grafico
 
-```{r}
+``` r
 ggsave(
   "grafico_brix_coletas.png",
   plot = grafico_dispersao,
@@ -105,3 +109,8 @@ ggsave(
 )
 ```
 
+    ## Warning: Removed 9 rows containing non-finite outside the scale range
+    ## (`stat_summary()`).
+
+    ## Warning: Removed 9 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
