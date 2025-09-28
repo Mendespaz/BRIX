@@ -5,7 +5,7 @@ date: "2025-09-17"
 output: github_document
 ---
 
-# Carregar pacote
+# Pacote
 
 ```{r}
 library(tidyverse)
@@ -14,7 +14,7 @@ library(readxl)
 ```
 
 
-# Carega e Preparação dos Dados
+# Informando os Dados
 ```{r}
 dados_longos <- read_excel("brix_completo_todos.xlsx") %>%
   pivot_longer(
@@ -87,13 +87,13 @@ grafico_dispersao <- ggplot(mapping = aes(x = coleta, y = brix)) +
   theme(legend.position = "bottom")
 ```
 
-# Exibir grafico
+# Exibir o grafico
 
 ```{r}
 print(grafico_dispersao)
 ```
 
-# Salvar grafico
+# Salvar o grafico
 
 ```{r}
 ggsave(
