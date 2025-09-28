@@ -1,29 +1,35 @@
-Brix
-================
-Gabriel Mendes
-2025-09-17
+---
+title: "Brix"
+author: "Gabriel Mendes"
+date: "2025-09-17"
+output: github_document
+---
 
 # Pacote
+
 
 ``` r
 library(tidyverse)
 ```
 
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
-    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.1.0     
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+```
+## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.1.0     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+```
 
 ``` r
 library(agricolae)
 library(readxl)
 ```
+
 
 # Informando os Dados
 
@@ -45,12 +51,15 @@ dados_longos <- read_excel("brix_completo_todos.xlsx") %>%
   select(clone, bloco, coleta, brix)
 ```
 
-    ## Warning: There was 1 warning in `mutate()`.
-    ## ℹ In argument: `brix = as.numeric(brix)`.
-    ## Caused by warning:
-    ## ! NAs introduzidos por coerção
+```
+## Warning: There was 1 warning in `mutate()`.
+## ℹ In argument: `brix = as.numeric(brix)`.
+## Caused by warning:
+## ! NAs introduzidos por coerção
+```
 
 # Informando os pais
+
 
 ``` r
 dados_pais <- dados_longos %>%
@@ -61,6 +70,7 @@ dados_outros_clones <- dados_longos %>%
 ```
 
 # Geração do Gráfico
+
 
 ``` r
 grafico_dispersao <- ggplot(mapping = aes(x = coleta, y = brix)) +
@@ -106,19 +116,25 @@ grafico_dispersao <- ggplot(mapping = aes(x = coleta, y = brix)) +
 
 # Exibir o grafico
 
+
 ``` r
 print(grafico_dispersao)
 ```
 
-    ## Warning: Removed 9 rows containing non-finite outside the scale range
-    ## (`stat_summary()`).
+```
+## Warning: Removed 9 rows containing non-finite outside the scale range
+## (`stat_summary()`).
+```
 
-    ## Warning: Removed 9 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
+```
+## Warning: Removed 9 rows containing missing values or values outside the scale range
+## (`geom_point()`).
+```
 
 ![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 # Salvar o grafico
+
 
 ``` r
 ggsave(
@@ -130,8 +146,13 @@ ggsave(
 )
 ```
 
-    ## Warning: Removed 9 rows containing non-finite outside the scale range
-    ## (`stat_summary()`).
+```
+## Warning: Removed 9 rows containing non-finite outside the scale range
+## (`stat_summary()`).
+```
 
-    ## Warning: Removed 9 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
+```
+## Warning: Removed 9 rows containing missing values or values outside the scale range
+## (`geom_point()`).
+```
+
