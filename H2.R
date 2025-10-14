@@ -1,8 +1,3 @@
-#--------------------------------------------------------------------------
-# PASSO 1: INSTALAR E CARREGAR OS PACOTES NECESSÁRIOS
-#--------------------------------------------------------------------------
-# Se for a primeira vez, remova o '#' da linha abaixo para instalar os pacotes
-# install.packages(c("lme4", "dplyr", "readxl", "tidyr"))
 
 library(lme4)
 library(dplyr)
@@ -10,20 +5,14 @@ library(readxl)
 library(tidyr)
 
 
-#--------------------------------------------------------------------------
-# PASSO 2: CARREGAR E PREPARAR OS DADOS
-#--------------------------------------------------------------------------
-# Certifique-se de que o arquivo Excel está na sua pasta de trabalho (working directory)
 caminho_arquivo <- "brix_completo_todos.xlsx"
 dados_originais <- readxl::read_excel(caminho_arquivo)
 
-# Transforma os dados do formato 'largo' para o 'longo'
 dados_long <- pivot_longer(dados_originais,
                            cols = c(primeira, segunda, terceira, quarta),
                            names_to = "coleta",
                            values_to = "brix")
 
-# Limpeza completa e conversão dos tipos de dados
 dados_long$clone <- as.factor(dados_long$clone)
 dados_long$bloco <- as.factor(dados_long$bloco)
 dados_long$coleta <- as.factor(dados_long$coleta)
@@ -31,11 +20,10 @@ dados_long$brix <- as.character(dados_long$brix) # Converte para texto primeiro
 dados_long$brix <- gsub(",", ".", dados_long$brix) # Substitui vírgula por ponto
 dados_long$brix <- as.numeric(dados_long$brix) # Converte para número
 
-# Remove linhas com dados ausentes (NA) e o outlier identificado anteriormente
 dados_long <- na.omit(dados_long)
 dados_long <- dados_long %>% filter(brix < 100)
 
-# Cria a variável 'grupo' para identificar as testemunhas (pj)
+
 dados_long <- dados_long %>%
   mutate(grupo = as.factor(ifelse(clone %in% c("7825", "5952"), "Testemunha", "Clone")))
 
