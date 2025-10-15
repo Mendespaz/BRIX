@@ -29,23 +29,22 @@ dados_long <- dados_long %>%
 
 
 #--------------------------------------------------------------------------
-# PASSO 3: AJUSTAR O MODELO ESTATÍSTICO CORRIGIDO
+# PASSO 3: MODELO ESTATÍSTICO
 #--------------------------------------------------------------------------
 # Modelo simplificado, removendo o termo de interação clone:coleta
 cat("\n--- Ajustando o modelo misto final para °Brix... ---\n")
 modelo_brix_final <- lmer(brix ~ grupo + coleta + (1 | clone) + (1 | bloco),
                           data = dados_long)
 
-# Exibe o resumo completo do novo modelo (sem o aviso de 'singular fit')
 print(summary(modelo_brix_final))
 
 
 #--------------------------------------------------------------------------
-# PASSO 4: CALCULAR A HERDABILIDADE (H²) COM O MODELO CORRIGIDO
+# PASSO 4: CALCULAR A HERDABILIDADE (H²)
 #--------------------------------------------------------------------------
 variancias <- as.data.frame(VarCorr(modelo_brix_final))
 
-# Extrai os componentes de variância do novo modelo
+# Extrai os componentes de variância
 vg <- variancias[variancias$grp == "clone", "vcov"]
 ve <- variancias[variancias$grp == "Residual", "vcov"]
 
@@ -53,26 +52,19 @@ ve <- variancias[variancias$grp == "Residual", "vcov"]
 n_coletas <- n_distinct(dados_long$coleta)
 n_blocos <- n_distinct(dados_long$bloco)
 
-# Calcula a Herdabilidade com a fórmula ajustada para o modelo sem interação
-# O erro agora está dividido pelo número total de parcelas (blocos * coletas)
+# Calcula a Herdabilidade 
 h2 <- vg / (vg + (ve / (n_blocos * n_coletas)))
+cat("Herdabilidade (H²) =", round(h2, 4), "\n")
 
-cat("\n------------------------------------------------\n")
-cat("Herdabilidade (H²) Final na média do clone:", round(h2, 4), "\n")
-cat("------------------------------------------------\n\n")
+# PASSO 5: SELEÇÃO DOS 40 MELHORES CLONES
 
-
-#--------------------------------------------------------------------------
-# PASSO 5: SELEÇÃO DOS 40 MELHORES CLONES (BLUPs) COM O MODELO CORRIGIDO
-#--------------------------------------------------------------------------
-# Extrai os efeitos aleatórios (BLUPs) do novo modelo
 blups <- ranef(modelo_brix_final)$clone
 
 # Adiciona o intercepto geral (μ) para obter o valor genético final
 intercepto <- fixef(modelo_brix_final)["(Intercept)"]
 valores_geneticos <- blups$`(Intercept)` + intercepto
 
-# Cria um dataframe com os resultados para o ranking
+# Cria o ranking
 ranking_clones <- data.frame(
   Clone = rownames(blups),
   BLUP_Efeito_Aleatorio = blups$`(Intercept)`,
@@ -89,15 +81,17 @@ top_40_clones <- head(ranking_clones_ordenado, 40)
 print("--- Top 40 Melhores Clones Selecionados (Modelo Final) ---")
 print(top_40_clones)
 
-#--------------------------------------------------------------------------
-# PASSO 6: SELEÇÃO E VISUALIZAÇÃO DOS 40 PIORES CLONES
-#--------------------------------------------------------------------------
-# Ordena o ranking em ordem CRESCENTE (do menor para o maior valor)
+
+# 40 PIORES CLONES
+
+# Ordena o ranking em ordem CRESCENTE
 ranking_clones_piores <- ranking_clones %>%
   arrange(Valor_Genetico_Final)
 
-# Seleciona os 40 primeiros da lista (que agora são os piores)
+# Seleciona os 40 primeiros da lista
 bottom_40_clones <- head(ranking_clones_piores, 40)
 
-print("--- Top 40 Piores Clones Selecionados (Modelo Final) ---")
+print("--- Top 40 Piores Clones ---")
 print(bottom_40_clones)
+
+#fim
